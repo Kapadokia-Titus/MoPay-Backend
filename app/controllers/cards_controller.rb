@@ -23,4 +23,14 @@ class CardsController < ApplicationController
       def card_params
         params.permit(:card_name, :card_number,:user_id, :expiration, :card_bank, :cvv, :amount)
       end
+
+      def destroy
+        card = Card.find_by(id: params[:id])
+        if card
+          card.destroy
+          head :no_content
+        else
+          render json: { error: "Card not found" }, status: :not_found
+        end
+      end
 end
